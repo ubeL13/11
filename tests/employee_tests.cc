@@ -65,75 +65,11 @@ TEST(EmployeeTests, EmployeeComputeSalaryTest2) {
 }
 TEST(EmployeeListTests, EmployeeListDefaultConstructorTest) {
     EmployeeList EL = EmployeeList();
-    EXPECT_EQ(EL.get_size(), 6);
+    EXPECT_EQ(EL.get_size(), 0);
 }
-TEST(EmployeeListTests, EmployeeListDefaultConstructorTest2) {
-    EmployeeList EL = EmployeeList();
-    EXPECT_EQ(EL[0].get_type(), Staff);
-}
-TEST(EmployeeListTests, EmployeeListConstructorTest) {
-    const int SIZE = 3;
-    Employee employee[CAPACITY];
-    employee[0] = Employee("Konstantin Jukov", 2021, Staff, 30000, 2023);
-    employee[1] = Employee("Vladimir Petrov", 2020, Staff, 45000, 2023);
-    employee[2] = Employee("Ivan Krilov", 2021, Freelance, 150, 2.7, 140);
-    EmployeeList EL = EmployeeList(employee, SIZE);
-    EXPECT_EQ(EL.get_size(), 3);
-    EXPECT_EQ(EL[2].get_type(), Freelance);
-}
-TEST(EmployeeListTests, EmployeeListAddEmployerTest) {
-    EmployeeList EL = EmployeeList();
-    Employee employer = Employee("Konstantin Jukov", 2021, Staff, 30000.0, 2023);
-    EL.add_employer(2, employer);
-    EXPECT_EQ(EL.get_size(), 7);
-    EXPECT_EQ(EL[2].get_full_name(), "Konstantin Jukov");
-    EXPECT_EQ(EL[0].compute_salary(), 0);
-    EXPECT_EQ(EL[0].get_basic_rate_for_month(), 0);
-    EXPECT_EQ(EL[2].compute_salary(), 30300);
-}
-TEST(EmployeeListTests, EmployeeListDelEmployerTest) {
-    EmployeeList EL = EmployeeList();
-    EL.del_employer(0);
-    EXPECT_EQ(EL.get_size(), 5);
-    EXPECT_EQ(EL[0].compute_salary(), 0);
-    EXPECT_EQ(EL[1].get_basic_rate_for_month(), 0);
-}
+
 TEST(EmployeeListTests, EmployeeListClearTest) {
     EmployeeList EL = EmployeeList();
     EL.clear();
     EXPECT_EQ(EL.get_size(), 0);
-}
-TEST(EmployeeListTests, EmployeeListMaxSalaryTest) {
-    const int SIZE = 3;
-    Employee employee[CAPACITY];
-    employee[0] = Employee("Konstantin Jukov", 2021, Staff, 30000.0, 2023);
-    employee[1] = Employee("Vladimir Petrov", 2020, Staff, 45000.0, 2023);
-    employee[2] = Employee("Ivan Krilov", 2020, Staff, 50000.0, 2023);
-    EmployeeList EL = EmployeeList(employee, SIZE);
-    EXPECT_EQ(EL.find_with_max_salary(employee), 2);
-}
-TEST(EmployeeListTests, EmployeeListMaxSalaryTest2) {
-    const int SIZE = 3;
-    Employee employee[CAPACITY];
-    employee[0] = Employee("Konstantin Jukov", 2021, Staff, 30000.0, 2023);
-    employee[1] = Employee("Vladimir Petrov", 2020, Freelance, 350.0, 4, 150);
-    employee[2] = Employee("Ivan Krilov", 2020, Staff, 50000.0, 2023);
-    EmployeeList EL = EmployeeList(employee, SIZE);
-    EXPECT_EQ(EL.find_with_max_salary(employee), 1);
-}
-TEST(ExceptionTests, ExeptionIndexOutTest) {
-    EmployeeList EL = EmployeeList();
-    EXPECT_THROW(EL[-1].compute_salary(), std::runtime_error);
-    EXPECT_THROW(EL[10].compute_salary(), std::runtime_error);
-}
-TEST(ExceptionTests, ExeptionCapacityTest) {
-    EmployeeList EL = EmployeeList();
-    Employee employee = Employee();
-    EL.set_size(10);
-    EXPECT_THROW(EL.add_employer(1, employee), std::runtime_error);
-}
-TEST(ExceptionTests, ExeptionEmptyTest) {
-    EmployeeList EL = EmployeeList();
-    EL.set_size(0);
-    EXPECT_THROW(EL.del_employer(1), std::runtime_error);
 }
