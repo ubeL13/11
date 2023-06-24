@@ -4,162 +4,97 @@
 #include <conio.h>
 using namespace employee;
 using namespace std;
-int main() {
+void app() {
+	cout << " ____________________________________________________________________" << endl;
+	cout << " |                                Меню                               |" << endl;
+	cout << " —-------------------------------------------------------------------" << endl;
+	cout << " | 1 - добавить транспорт											  |" << endl;
+	cout << " | 2 - вставить транспорт по индексу                                 |" << endl;
+	cout << " | 3 - удалить транспорт по индексу                                  |" << endl;
+	cout << " | 4 - вывести список транспорта                                     |" << endl;
+	cout << " | 5 - рассчитать стоимость перевозки                                |" << endl;
+	cout << " | 6 - выйти из системы                                              |" << endl;
+	cout << "  -------------------------------------------------------------------" << endl;
+}
+shared_ptr<Employee> create_employee() {
+	string name;
+	int type;
+	double k, a, proc, chis;
+	int typeeng, yoh, cury;
+	cout << "Введите тип (Staff-1,Freelance-2): ";
+	cin >> type;
+	if (type != 1 and type != 2)
+		throw runtime_error("Unknown type");
+	cout << "Введите имя: ";
+	getline(cin >> ws, name);
+	cout << "Введите базоую ставку : ";
+	cin >> k;
+	switch (type)
+	{
+	case 1:
+		cout << "Текущий год: ";
+		cin >> cury;
+		cout << "Год найма: ";
+		cin >> yoh;
+		return make_shared<Staff>(name, k, yoh, cury);
+	case 2:
+		cout << "Процент надбавки: ";
+		cin >> proc;
+		cout << "Отработанные часы: ";
+		cin >> chis;
+		cout << "Год найма: ";
+		cin >> yoh;
+		return make_shared<Freelance>(name, k, proc, chis, yoh);
+	
+	}
+}
+int main()
+{
 	SetConsoleTitle("Employee");
-	setlocale(LC_ALL, "rus");
+	setlocale(LC_ALL, "");
 	SetConsoleCP(1251);
-	int s = 0;
 	EmployeeList employee;
-	string type;
-	int t;
-	int index;
-	int f = 0;
-
-	while (f == 0) {
-
+	app();
+	while (true)
+	{
+		int k;
+		cin >> k;
+		int index = 0;
+		float m, d;
 		system("cls");
-		cout << " ____________________________________________________________________" << endl;
-		cout << " |                                Меню                               |" << endl;
-		cout << " —-------------------------------------------------------------------" << endl;
-		cout << " | 1 - добавить работника                                            |" << endl;
-		cout << " | 2 - добавить новый работник по индексу                            |" << endl;
-		cout << " | 3 - удалить работника по индексу                                  |" << endl;
-		cout << " | 4 - выйти из системы                                              |" << endl;
-		cout << "  -------------------------------------------------------------------" << endl;
-		employee.display();
-
-		cin >> t;
-
-		switch (t) {
-		case 1:
-			
-			cout << "Введите тип (Freelance, Staff): ";
-			cin >> type;
-			if (type == "Freelance") {
-				EmployeeType vtype = Freelance;
-				string name;
-				double k;
-				double proc;
-				int chis;
-				int yoh;
-
-				cout << "Введите имя: ";
-				cin >> name;
-				cout << "Введите базовый тариф: ";
-				cin >> k;
-				cout << "Процент надбавки: ";
-				cin >> proc;
-				cout << "Отработанные часы: ";
-				cin >> chis;
-				cout << "Год найма: ";
-				cin >> yoh;
-
-				auto v = Employee(name, yoh, vtype, k, proc, chis);
-				employee.add_employer(v);
-				s++;
-			}
-			else if (type == "Staff") {
-				EmployeeType vtype = Staff;
-				string name;
-				double k;
-				int cury;
-				int yoh;
-
-				cout << "Введите имя: ";
-				cin >> name;
-				cout << "Введите базовый тариф: ";
-				cin >> k;
-				cout << "Текущий год: ";
-				cin >> cury;
-				cout << "Год найма: ";
-				cin >> yoh;
-
-				auto v = Employee(name, yoh, vtype, k, cury);
-				employee.add_employer(v);
-				s++;
-			}
-
-			else {
-				cout << "Неверный тип";
-				s = 0;
-			}
+		app();
+		if (k == 6) {
+			employee.clear();
 			break;
+		}
+		switch (k)
+		{
+		case 1:
 			system("cls");
+			employee.add_employer(create_employee());
+			system("cls");
+			app();
+			break;
 		case 2:
-			
-			cout << "Введите индекс: ";
+			cout << "Введите индекс для вставки : ";
 			cin >> index;
-			
-				cout << "Введите тип (Freelance, Staff): ";
-				cin >> type;
-				if (type == "Freelance") {
-					EmployeeType vtype = Freelance;
-					string name;
-					double k;
-					double proc;
-					int chis;
-					int yoh;
-
-					cout << "Введите имя: ";
-					cin >> name;
-					cout << "Введите базовый тариф: ";
-					cin >> k;
-					cout << "Процент надбавки: ";
-					cin >> proc;
-					cout << "Отработанные часы: ";
-					cin >> chis;
-					cout << "Год найма: ";
-					cin >> yoh;
-
-					auto v = Employee(name, yoh, vtype, k, proc, chis);
-					employee.insert_index(v, index);
-					s++;
-				}
-				else if (type == "Staff") {
-					EmployeeType vtype = Staff;
-					string name;
-					double k;
-					int cury;
-					int yoh;
-
-					cout << "Введите имя: ";
-					cin >> name;
-					cout << "Введите базовый тариф: ";
-					cin >> k;
-					cout << "Текущий год: ";
-					cin >> cury;
-					cout << "Год найма: ";
-					cin >> yoh;
-
-					auto v = Employee(name, yoh, vtype, k, cury);
-					employee.insert_index(v, index);
-					s++;
-				}
-
-				else {
-					cout << "Неверный тип";
-					s = 0;
-				}
-			
+			employee.insert_index(create_employee(), index);
 			break;
 		case 3:
-			
-			cout << "Введите индекс: ";
+			cout << "Введите индекс, который нужно удалить: ";
 			cin >> index;
 			employee.del_employer(index);
 			break;
 		case 4:
-			if (t == 4)
-			{
-				return 0;
-			}
+			employee.print();
+			break;
+		case 5:
+			cout << "Введите индекс транспорта, стоимость перевозки которого нужно посчитать: ";
+			cin >> index;
+			cout << employee[index]->compute_salary();
 			break;
 		
 		}
-
-	}	
-		
-
-
-
+	}
+	return 0;
 }
